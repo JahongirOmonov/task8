@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from .serializer import allinfoSerializer, naushnikSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
 # # Create your views here.
 
@@ -26,6 +27,11 @@ from rest_framework import generics
 class GetAllNaushnik(generics.ListAPIView):
     queryset=naushnik.objects.all()
     serializer_class=naushnikSerializer
+    permission_classes=(IsAuthenticated,)
+
+    def get_queryset(self):
+        print(self.request.user)
+        return naushnik.objects.all()
 
 
     
@@ -92,6 +98,11 @@ class AllFunctionNaushnik(generics.RetrieveUpdateDestroyAPIView):
 class GetAllAllinfo(generics.ListAPIView):
     queryset=allinfo.objects.all()
     serializer_class=allinfoSerializer
+    permission_classes=(IsAuthenticated,)
+
+    def get_queryset(self):
+        print(self.request.user)
+        return allinfo.objects.all()
 
 class GetDetailAllinfo(generics.RetrieveAPIView):
     queryset = allinfo.objects.all()
